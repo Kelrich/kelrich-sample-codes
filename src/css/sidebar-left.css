@@ -1,0 +1,36 @@
+.sidebar-left {
+    margin-top: 0px;
+    left: 0;
+    position: fixed;
+    background-color: black;
+    border: 1px solid black;
+    height: 100%;
+    width: 16%;
+}
+.sidebar-title {
+    list-style-type: none;
+    padding: 20px 0px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    border-bottom: 1px solid white;
+    background: linear-gradient(to bottom, darkorchid, black);
+    font-weight: bold;
+    font-size: 17px;
+}
+.sidebar-list{
+    margin-top: 5px;
+    background-color: black;
+    color: white;
+    display: inline-block;
+    width: 100%;
+    padding: 12px 0px;
+    font-size: 12px;
+    cursor: pointer;
+    border-bottom: 1px dashed white;
+}
+
+.sidebar-list:hover{
+    background: linear-gradient(to right, lightslategrey, black);
+    font-weight: bold;
+}

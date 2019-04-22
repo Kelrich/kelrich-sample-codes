@@ -1,0 +1,7 @@
+.sidebar-right {
+    right: 0;
+    position: fixed;
+    background-color: darkorchid;
+    height: 100%;
+    width: 20%;
+}
