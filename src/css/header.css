@@ -1,40 +1,48 @@
-.title{
-    height: 20px;
+.fa-home, .fa-coins, .fa-wallet {
+    color: white;
+    font-size: 15px;
+    margin-right: 10px;
+}.title{
+    position: fixed;
+    height: 3%;
     width: 100%;
-    padding: 20px;
+    padding: 15px;
     text-align: left;
-    background: linear-gradient(to bottom, white, #ffffffe5, lightslategrey);
-    color: darkorchid;
+    list-style-type: circle;
+    color: black;
     font-weight: 600;
     font-size: 17px;
-    border-bottom: 3px double black;
 }
 .navigation{
+    position: fixed;
     list-style-type: none;
-    margin: 0;
+    margin-top: 51px;
+    width: 100%;
     padding: 0;
 }
-ul {
+.nav {
     list-style-type: none;
     margin: 0;
     padding: 0;
     height: 30px;
-    overflow: hidden;
-    background-color: black;
+    background: radial-gradient(to bottom, cyan, darkcyan, cyan);
+    border-top: 1px solid darkcyan;
+    border-bottom: 1px solid darkcyan;
 }
 .header-list {
     float: left;
-}  
-.header-list a {
+    border-right: 3px double wheat;
     display: block;
     color: white;
     text-align: center;
+    font-weight: bold;
     font-size: 12px;
-    padding: 7px 16px;
+    padding: 7px 30px;
     text-decoration: none;
+    cursor: pointer;
 }
-.active, .header-list a:hover {   
-    background: linear-gradient(to right, lightslategrey, black);
+.active{
+    background: linear-gradient(to bottom,black,black, black, black, yellow);
     color: white;
     font-weight: bold;
 }
