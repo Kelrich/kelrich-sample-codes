@@ -33,11 +33,48 @@
   top: 22%;
   border: 1px solid #aaa;
 }
+.report-y, .report-m {
+  float: left;
+  width: 80%;
+  margin-top: 2%;
+  margin-left: 10%;
+  font-weight: bold;
+}
+.report-m {
+  display: none;
+  position: absolute;
+  margin-left: 31px;
+  margin-top: 5px;
+  width: 20%;
+}
 .report-2 {
   overflow-x: auto;
   margin-left: 0;
   width: 98%;
   height: 80%;
+}
+.current {
+  margin-top: 5%;
+  margin-bottom: 8%;
+  width: 70%;
+}
+.total-expenditures {
+  margin-top: 4%;
+  margin-left: 12%;
+  font-weight: bold;
+  width: 80%;
+}
+.total-expense, .total-budget, .remaining-budget, .excess-expense {
+  border: 1px solid black;
+  padding: 6px 50px;
+  width: 100%;
+  background-color: lightyellow;
+}
+.total-budget-m, .remaining-budget-m, .excess-expense-m {
+  border: 1px solid black;
+  padding: 6px 50px;
+  width: 100%;
+  background-color: lightyellow;
 }
 .expense-category, .expense-transaction, .expense-budget {
   position: absolute;
@@ -46,11 +83,14 @@
   height: 20%;
   background-color: white;
 }
-
 .expense-transaction, .expense-budget {
   display: none;
 }
 .category:hover {
+  background-color: lightcyan;
+  cursor: default;
+}
+.amount:hover {
   background-color: lightcyan;
   cursor: default;
 }
@@ -60,7 +100,7 @@
 }
 .expense-report-table {
   width: 90%;
-  margin-top: 5%;
+  margin-top: 2%;
   margin-left: 7%;
 }
 .expense-category-tr th, .expense-transaction-tr th, .expense-budget-tr th, .expense-report-tr th {
@@ -90,15 +130,15 @@
 #myModal {
   display: none;
   position: fixed;
-  width: 70%;
+  width: 60%;
   z-index: 1040;
-  top: 8%;
-  left: 13%;
+  top: 7%;
+  left: 17%;
   border: 1px solid #e5e5e5;
   background-color: white;
   box-shadow: 0 5px 15px rgba(0,0,0,.5);
   height: 75%;
-  padding: 18px 30px;
+  padding: 35px 50px;
 }
 .modal-title {
   margin-top: 0;
@@ -125,20 +165,22 @@
   transition: all 1.4s ease;
 }
 .modal-left {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
   padding: 10px 0px;
   border: 1px solid #e5e5e5;
   background-color: white;
   box-shadow: 0 5px 15px rgba(0,0,0,.5);
   float: left;
-  width: 50%;
+  width: 30%;
   height: 410px;
 }
 .modal-right {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
   padding: 10px 0px;
   border: 1px solid #e5e5e5;
   background-color: white;
   box-shadow: 0 5px 15px rgba(0,0,0,.5);
-  margin-left: 50%;
+  margin-left: 35%;
   height: 410px;
 }
 .column:after {

@@ -26,7 +26,13 @@ class App extends Component {
     budgetView : [],
 
     expenseList: [],
-    value: [],
+    totalExpense: [],
+    totalBudget: [],
+    currentBudget: [],
+    remainingBudget: [],
+    excessExpense: [],
+    excessCurrent: [],
+    remainingCurrent: []
   }
   }
 
@@ -54,6 +60,7 @@ class App extends Component {
   axios.delete('http://localhost:8080/restsample01/rest/transactions?id=' + i)
   .then(res => {
     console.log(res.data);
+    this.getTransaction();
   });}
   }
 
@@ -169,9 +176,15 @@ class App extends Component {
       axios.put('http://localhost:8080/restsample01/rest/budget', data, {header: headers})
       .then(res => {
         alert(res.data);
-      })
+      });
+      
+      }
+      axios.get('http://localhost:8080/restsample01/rest/budget?budgetCategory=' + opt)
+      .then(res => {
+        this.setState({budgetList : res.data});
+        });
     }
-  }
+  
     
   getActiveHeader() {
   let btns = document.getElementsByClassName("header-list");
@@ -250,38 +263,124 @@ class App extends Component {
 }});}
   }
 
+  handleCurrent = e => {
+    
+    if (e.target.value === "Current Year") {
+      document.getElementsByClassName("report-y")[0].style.display = "block";
+      document.getElementsByClassName("report-m")[0].style.display = "none";
+    } else {
+      document.getElementsByClassName("report-m")[0].style.display = "block";
+      document.getElementsByClassName("report-y")[0].style.display = "none";
+    }
   
+  }
+
   handleViewBudget = e => {
-  console.log("value is: " + e.target.value);
-  let total = document.getElementsByClassName("total-budget");
-  let exp = document.getElementsByClassName("total-expense");
+  let bud = document.getElementsByClassName("total-budget");
+  let mon = document.getElementsByClassName("total-budget-m");
+  let exp = document.getElementsByClassName("total-expense")
+  let rem = document.getElementsByClassName("remaining-budget");
+  let monrem = document.getElementsByClassName("remaining-budget-m");
+  let exc = document.getElementsByClassName("excess-expense");
+  let monexc = document.getElementsByClassName("excess-expense-m");
+  let value = e.target.value;
+
   document.getElementById("myModal").style.display = "block";
   document.getElementsByClassName("modal-backdrop-transparent")[0].style.display = "block";
   document.getElementsByClassName("form-container2")[0].style.width = "0";
+  document.getElementsByClassName("body-title")[0].style.marginLeft = "0";
+  document.getElementsByClassName("container")[0].style.marginLeft = "0";
+  document.getElementsByClassName("container")[0].style.width = "64%";
   
-  // get budget for the current month
-  axios.get('http://localhost:8080/restsample01/rest/budget?budgetCategory=' + e.target.value)
-  .then(res => {
+  // get total budget, remaining budget, and excess expense amount
+    axios.get('http://localhost:8080/restsample01/rest/budget?budgetCategory=' + value)
+    .then(res => {
+    this.setState({totalBudget : []});
+    this.setState({currentBudget : []});
     this.setState({budgetView : res.data});
+    
+    // all budget
     this.state.budgetView.map((budget => {
     return (
-    total[0].innerHTML = total[0].innerHTML.replace(total[0].innerHTML, budget.may));
-    }))
-    });
-  // get all expenses for the current category 
-  
-  let result;
-  axios.get('http://localhost:8080/restsample01/rest/transactions?transactionName=' + e.target.value)
-  .then(res => {
+    this.state.totalBudget.push(budget.jan, budget.feb, budget.mar, budget.apr, budget.may, budget.jun, budget.jul, budget.aug, budget.sep, budget.oct, budget.nov, budget.dec)
+    )}))
+    // current month
+    this.state.budgetView.map((budget => {
+    return (
+    this.state.currentBudget.push(budget.may)
+    )}))
+    
+    try {
+    const totalBudget = this.state.totalBudget.reduce((total, currentValue) => {
+    return total + currentValue;});
+    this.setState({totalBudget: totalBudget});
+    bud[0].innerHTML = bud[0].innerHTML.replace(bud[0].innerHTML, this.state.totalBudget);
+    mon[0].innerHTML = mon[0].innerHTML.replace(mon[0].innerHTML, this.state.currentBudget);
+    } catch (error) {
+      console.log(error);
+    }
+    // get total expenditures
+    axios.get('http://localhost:8080/restsample01/rest/transactions?transactionName=' + value)
+    .then(res => {
+    this.setState({totalExpense : []});
     this.setState({expenseList : res.data});
     this.state.expenseList.map((expense => {
     return (
-      this.state.value.push(expense.transactionAmount))  
+    this.state.totalExpense.push(expense.transactionAmount))  
     }));
-    const result = this.state.value.reduce((total,currentValue) => {
+    try {
+      const totalExpense = this.state.totalExpense.reduce((total,currentValue) => {
       return total + currentValue;});
-  console.log("data : " + result);
-});
+      this.setState({totalExpense : totalExpense});
+      exp[0].innerHTML = exp[0].innerHTML.replace(exp[0].innerHTML, this.state.totalExpense);
+      } catch (error) {
+        console.log(error);
+      }
+      
+    // condition if Expenditures > or < than Budget
+    if (this.state.totalExpense > this.state.totalBudget) {
+      this.setState({excessExpense: []});
+      rem[0].innerHTML = rem[0].innerHTML.replace(rem[0].innerHTML, "0");
+      this.state.excessExpense.push(this.state.totalExpense, this.state.totalBudget);
+      const excessExpense = this.state.excessExpense.reduce((total, currentValue) => {
+      return total - currentValue;});
+      this.setState({excessExpense: excessExpense});
+      exc[0].innerHTML = exc[0].innerHTML.replace(exc[0].innerHTML, this.state.excessExpense);
+      exc[0].style.backgroundColor = "pink"; 
+    } else {
+      this.setState({remainingBudget: []});
+      exc[0].innerHTML = exc[0].innerHTML.replace(exc[0].innerHTML, "0");
+      this.state.remainingBudget.push(this.state.totalBudget, this.state.totalExpense);
+      const remainingBudget = this.state.remainingBudget.reduce((total, currentValue) => {
+      return total - currentValue;});
+      this.setState({remainingBudget: remainingBudget});
+      rem[0].innerHTML = rem[0].innerHTML.replace(rem[0].innerHTML, this.state.remainingBudget);
+      exc[0].style.backgroundColor = "lightgreen";
+    }
+    if (this.state.totalExpense > this.state.currentBudget) {
+      this.setState({excessCurrent: []});
+      monrem[0].innerHTML = monrem[0].innerHTML.replace(monrem[0].innerHTML, "0");
+      this.state.excessCurrent.push(this.state.totalExpense, this.state.currentBudget);
+      const excessCurrent = this.state.excessCurrent.reduce((total, currentValue) => {
+      return total - currentValue;});
+      this.setState({excessCurrent: excessCurrent});
+      monexc[0].innerHTML = monexc[0].innerHTML.replace(monexc[0].innerHTML, this.state.excessCurrent);
+      monexc[0].style.backgroundColor = "pink";
+    } else {
+      this.setState({remainingCurrent: []});
+      monexc[0].innerHTML = monexc[0].innerHTML.replace(monexc[0].innerHTML, "0");
+      this.state.remainingCurrent.push(this.state.currentBudget, this.state.totalExpense);
+      const remainingCurrent = this.state.remainingCurrent.reduce((total, currentValue) => {
+      return total - currentValue;});
+      this.setState({remainingCurrent: remainingCurrent});
+      monrem[0].innerHTML = monrem[0].innerHTML.replace(monrem[0].innerHTML, this.state.remainingCurrent);
+      monexc[0].style.backgroundColor = "lightgreen";
+    }
+
+
+
+  }); 
+  });
 }
 
 
@@ -421,6 +520,7 @@ handleViewCategories = e => {
     budgetList={this.state.budgetList}
     handleViewBudget={this.handleViewBudget}
     handleClose={this.handleClose}
+    handleCurrent={this.handleCurrent}
     />
 </div>    
 );}

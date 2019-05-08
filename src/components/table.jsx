@@ -36,23 +36,41 @@ class Table extends Component {
                                         <div class="modal-content">
                                         <div class="modal-header">
                                         <button type="button" className="close1" onClick={this.props.handleClose}><i class="fas fa-times"></i></button>
-                                        <h4 class="modal-title">Budget Report</h4>
+                                        <h4 class="modal-title">BUDGET REPORT</h4>
                                         </div>
                                         <div class="column">
                                         <div class="modal-left">
-                                        Budget for the Current Month
-                                            <div className="report-1"><br/>
-                                            Total Budget Amount:<br/>
-                                            <label className="total-budget"></label><br/>
-                                            Remaining Budget:<br/>
+                                        <div className="budget-overview">BUDGET OVERVIEW</div>
+                                        <select onChange={this.props.handleCurrent} className="current">
+                                                <option selected>Current Year</option>
+                                                <option>Current Month</option> 
+                                        </select>
+                
+                                            <div className="report-y">
+                                            BUDGET AMOUNT<br/><br/>
+                                            <label className="total-budget"></label><br/><br/>
+                                            REMAINING BUDGET<br/><br/>
+                                            <label className="remaining-budget"></label><br/><br/>
+                                            EXCESS EXPENSE<br/><br/>
+                                            <label className="excess-expense"></label>
                                             </div>
+
+                                            <div className="report-m">
+                                            BUDGET AMOUNT<br/><br/>
+                                            <label className="total-budget-m"></label><br/><br/>
+                                            REMAINING BUDGET<br/><br/>
+                                            <label className="remaining-budget-m"></label><br/><br/>
+                                            EXCESS EXPENSE<br/><br/>
+                                            <label className="excess-expense-m"></label>
+                                            </div>
+                                            
                                         </div>
+
                                         <div class="modal-right">
-                                        Overview of All Expenses
+                                        EXPENDITURES OVERVIEW
                                             <div className="report-2">
                                             <table className="expense-report-table">
                                             <tr className="expense-report-th">
-                                            <th>CATEGORY</th>
                                             <th>TRANSACTION AMOUNT</th>
                                             <th>TRANSACTION DATE</th>
                                             </tr>
@@ -61,7 +79,6 @@ class Table extends Component {
                                     this.props.expenseList.map((expense) => {
                                     return (
                                     <tr className="expense-report-tr">
-                                    <th className="category">{expense.transactionName}</th>
                                     <th className="amount">{expense.transactionAmount}</th>
                                     <th className="date">{expense.transactionDate}</th>
                                     </tr>
@@ -70,7 +87,8 @@ class Table extends Component {
                             </tbody>
                                   </table>
                                 </div>
-                                    TOTAL EXPENDITURES: <label className="total-expense"></label>
+                                    <div className="total-expenditures">TOTAL EXPENDITURES: <label className="total-expense"></label>
+                                        </div>
                                         </div>
                                         </div>
                                         </div>
@@ -152,7 +170,8 @@ Table.propTypes = {
     getCategory: PropTypes.func,
     getBudget: PropTypes.func,
     handleViewBudget: PropTypes.func,
-    handleClose: PropTypes.func
+    handleClose: PropTypes.func,
+    handleCurrent: PropTypes.func,
 }
 
 export {
