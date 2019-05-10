@@ -177,12 +177,18 @@ class App extends Component {
       .then(res => {
         alert(res.data);
       });
+        
       
-      }
+    }
+    axios.get('http://localhost:8080/restsample01/rest/budget?budgetCategory=' + opt)
+    .then(res => {
+      this.setState({budgetList : res.data});  
       axios.get('http://localhost:8080/restsample01/rest/budget?budgetCategory=' + opt)
       .then(res => {
         this.setState({budgetList : res.data});
-        });
+      });  
+    });
+    
     }
   
     
